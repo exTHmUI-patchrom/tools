@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 '''
 USAGE: flash device recovery.fstab device.img [fstab_version]
     device: [boot|recovery]

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 # Filename main.py
 # Main UI of bootimgpack
 #
