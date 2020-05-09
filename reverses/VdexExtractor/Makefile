@@ -59,7 +59,7 @@ HEADERS = $(wildcard *.h)
 
 $(TARGET): $(OBJECTS)
 	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
-	cp $(TARGET) ../bin/$(TARGET)
+	strip $(TARGET)
 
 clean:
 	-rm -f *.o
