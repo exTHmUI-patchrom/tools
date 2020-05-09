@@ -1,25 +1,55 @@
-Android 6.0			23	Marshmallow
-Android 5.1			22	Lollipop
-Android 5.0			21	Lollipop
-Android 4.4			19	KITKAT
-Android 4.3			18	JELLY_BEAN_MR2
-Android 4.2, 4.2.2		17	JELLY_BEAN_MR1
-Android 4.1, 4.1.1		16	JELLY_BEAN
-Android 4.0.3, 4.0.4		15	ICE_CREAM_SANDWICH_MR1
-Android 4.0, 4.0.1, 4.0.2	14	ICE_CREAM_SANDWICH
-Android 3.2			13	HONEYCOMB_MR2
-Android 3.1.x			12	HONEYCOMB_MR1
-Android 3.0.x			11	HONEYCOMB
-Android 2.3.4
-Android 2.3.3			10	GINGERBREAD_MR1
-Android 2.3.2
-Android 2.3.1
-Android 2.3			9	GINGERBREAD
-Android 2.2.x			8	FROYO
-Android 2.1.x			7	ECLAIR_MR1
-Android 2.0.1			6	ECLAIR_0_1
-Android 2.0			5	ECLAIR
-Android 1.6			4	DONUT
-Android 1.5			3	CUPCAKE
-Android 1.1			2	BASE_1_1
-Android 1.0			1	BASE
+Android 9.0 (Pie)	28
+
+Android 8.1 (Oreo)	27
+
+Android 8.0 (Oreo)	26
+
+Android 7.1.1 (Nougat)	25
+
+Android 7.0 (Nougat)	24
+
+Android 6.0 (Marshmallow)	23
+
+Android 5.1 (Lollipop)	22
+
+Android 5.0 (Lollipop)	21
+
+Android 4.4W (KitKat Wear)	20
+
+Android 4.4 (KitKat)	19
+
+Android 4.3 (Jelly Bean)	18
+
+Android 4.2 (Jelly Bean)	17
+
+Android 4.1 (Jelly Bean)	16
+
+Android 4.0.3 (IceCreamSandwich)	15
+
+Android 4.0 (IceCreamSandwich)	14
+
+Android 3.2 (Honeycomb)	13
+
+Android 3.1 (Honeycomb)	12
+
+Android 3.0 (Honeycomb)	11
+
+Android 2.3.3 (Gingerbread)	10
+
+Android 2.3 (Gingerbread)	9
+
+Android 2.2 (Froyo)	8
+
+Android 2.1 (Eclair)	7
+
+Android 2.0.1 (Eclair)	6
+
+Android 2.0 (Eclair)	5
+
+Android 1.6 (Dout)	4
+
+Android 1.5 (Cupcake)	3
+
+Android 1.1 (Base)	2
+
+Android 1.0 (Base)	1
