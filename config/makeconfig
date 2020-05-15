@@ -227,7 +227,7 @@ function getVendorModifyJars()
 		ls $OUT_SYSTEM/framework > $frameworkListFile
 	fi
 	if [ -e $frameworkListFile ]; then
-		vendor_modify_jars=$(grep "\.jar" $frameworkListFile \
+		vendor_modify_jars=$(grep "\.jar$" $frameworkListFile \
 			| sed "s/\.jar//g" \
 			| egrep $VENDOR_MODIFY_JARS_SUGGEST \
 			| sed ":a;N;s/\n/ /g;ba")
