@@ -1,5 +1,5 @@
 *.o
 *.dSYM
-src/vdexExtractor
+vdexExtractor
 obj
 libs
