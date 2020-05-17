@@ -213,48 +213,51 @@ function deodex_framework() {
 }
 
 function repack_update_package() {
-	local apps_source=$workspace/apps
-	local apps_target=$system_apps
-	local framework_source=$workspace/framework
-	local framework_target=$system_framework
-	local privapps_source=$workspace/privapps
-	local privapps_target=$system_privapps
+	if [ $continue_deodex != 0 ];
+	then
+		local apps_source=$workspace/apps
+		local apps_target=$system_apps
+		local framework_source=$workspace/framework
+		local framework_target=$system_framework
+		local privapps_source=$workspace/privapps
+		local privapps_target=$system_privapps
 
-	local wait_remove_apps_dir=`ls $apps_source`
-	for file_dir in $wait_remove_apps_dir;
-	do {
-		local remove_apps_dir=oat
-		$delete_tools -rf $apps_target/$file_dir/$remove_apps_dir >/dev/null 2>&1
-		$copy_tools -rf $apps_source/$file_dir/$file_dir.apk $apps_target/$file_dir >/dev/null 2>&1
-	}&
-	done
-
-	local wait_remove_privapps_dir=`ls $privapps_source`
-	for file_dir in $wait_remove_privapps_dir;
-	do {
-		local remove_privapps_dir=oat
-		$delete_tools -rf $privapps_target/$file_dir/$remove_privapps_dir >/dev/null 2>&1
-		$copy_tools -rf $privapps_source/$file_dir/$file_dir.apk $privapps_target/$file_dir/ >/dev/null 2>&1
-	}&
-	done
-
-	local wait_remove_framework_dir=`ls -F $framework_target | grep '/$' | sed 's%/$%%g'`
-	for file_dir in $wait_remove_framework_dir;
-	do {
-		$delete_tools -rf $framework_target/$file_dir
-
-		local jar_files=`find $framework_source -maxdepth 2 -type f -name "*.jar" -exec basename {} \;`
-		for files in $jar_files;
-		do
-			local jar_name=`echo $files | sed 's%.jar$%%g'`
-			$delete_tools -rf $framework_target/$files >/dev/null 2>&1
-			$copy_tools -rf $framework_source/$jar_name/$files $framework_target/ >/dev/null 2>&1
-			$delete_tools -rf $framework_target/*.vdex >/dev/null 2>&1
+		local wait_remove_apps_dir=`ls $apps_source`
+		for file_dir in $wait_remove_apps_dir;
+		do {
+			local remove_apps_dir=oat
+			$delete_tools -rf $apps_target/$file_dir/$remove_apps_dir >/dev/null 2>&1
+			$copy_tools -rf $apps_source/$file_dir/$file_dir.apk $apps_target/$file_dir >/dev/null 2>&1
+		}&
 		done
-	}&
-	done
 
-	wait # waiting for all process done
+		local wait_remove_privapps_dir=`ls $privapps_source`
+		for file_dir in $wait_remove_privapps_dir;
+		do {
+			local remove_privapps_dir=oat
+			$delete_tools -rf $privapps_target/$file_dir/$remove_privapps_dir >/dev/null 2>&1
+			$copy_tools -rf $privapps_source/$file_dir/$file_dir.apk $privapps_target/$file_dir/ >/dev/null 2>&1
+		}&
+		done
+
+		local wait_remove_framework_dir=`ls -F $framework_target | grep '/$' | sed 's%/$%%g'`
+		for file_dir in $wait_remove_framework_dir;
+		do {
+			$delete_tools -rf $framework_target/$file_dir
+
+			local jar_files=`find $framework_source -maxdepth 2 -type f -name "*.jar" -exec basename {} \;`
+			for files in $jar_files;
+			do
+				local jar_name=`echo $files | sed 's%.jar$%%g'`
+				$delete_tools -rf $framework_target/$files >/dev/null 2>&1
+				$copy_tools -rf $framework_source/$jar_name/$files $framework_target/ >/dev/null 2>&1
+				$delete_tools -rf $framework_target/*.vdex >/dev/null 2>&1
+			done
+		}&
+		done
+
+		wait # waiting for all process done
+	fi
 
 	local ota_update=`readlink -f $target_ota_file`
 	cd $update_workspace
