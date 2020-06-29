@@ -1,71 +1,77 @@
-### 介绍
+mkbootimg_tools
+===============
 
-***bootimgpack*** 是一个智能解包和打包 Android boot.img 的工具,
-采用 Python 和 Shell 语言实现, 目前仅支持类 Unix 系统.
+HOW TO USE:
+-----------
 
-### 特点
+### Unpack boot/recovery(.img) support dtb(dt.img):
+		./mkboot name.img namefolderout
 
-  * 自适应不同手机厂商的 boot.img 格式,智能完成解包
-  * 提供命令和图形界面两种操作方式
+	EXAMPLE
+		./mkboot recoveryksuamg5.img ksuamg
+		Unpack & decompress recoveryksuamg5.img to ksuamg
+		  kernel         : /home/xiaolu/work/initramfs/s4/e330s/ksuamg5/zImage
+		  ramdisk        : /home/xiaolu/work/initramfs/s4/e330s/ksuamg5/ramdisk.gz
+		  page_size      : 2048
+		  base_addr      : 0x00000000
+		  kernel size    : 6911360
+		  kernel_addr    : 0x00008000
+		  ramdisk_size   : 2685222
+		  ramdisk_addr   : 0x02000000
+		  second_size    : 0
+		  second_addr    : 0x00f00000
+		  dtb_size       : 1427456
+		  tags_addr      : 0x01e00000
+		  cmdline        : console=null androidboot.hardware=qcom user_debug=31 maxcpus=2 msm_rtb.filter=0x3F
+		Unpack completed.
 
-### 使用
+### Repack boot/recovery(.img) support dtb(dt.img):
+		./mkboot namefolderout newimgname.img
 
- * 命令方式
+	EXAMPLE
+		./mkboot ksuamg5 recovery.img
+		mkbootimg from ksuamg5/img_info.
+		  kernel         : /home/xiaolu/work/initramfs/s4/e330s/ksuamg5/zImage
+		  ramdisk        : /home/xiaolu/work/initramfs/s4/e330s/ksuamg5/new_ramdisk.gz
+		  page_size      : 
+		  base_addr      : 0x00000000
+		  kernel size    : 6911360
+		  kernel_addr    : 0x00008000
+		  ramdisk_size   : 2685222
+		  ramdisk_addr   : 0x02000000
+		  second_size    : 
+		  second_addr    : 
+		  dtb_size       : 1427456
+		  dtb_img        : dt.img
+		  tags_addr      : 0x01e00000
+		  cmdline        : console=null androidboot.hardware=qcom user_debug=31 maxcpus=2 msm_rtb.filter=0x3F
+		Kernel size: 6911360, new ramdisk size: 3416778, recovery.img: 11759616.
+		recovery.img has been created.
+		...
 
-    ***解包:*** unpack_bootimg.py boot.img output/
+### Create a dt.img:
+		yourkernelsources/scripts/dtbTool -s 2048 -o arch/arm/boot/dt.img -p scripts/dtc/ arch/arm/boot/
 
-    ***打包:*** pack_bootimg.py   BOOT/ boot.img
+	EXAMPLE
+		SHV-E330S_JB_Opensource/Kernel$ scripts/dtbTool -s 2048 -o arch/arm/boot/dt.img -p scripts/dtc/ arch/arm/boot/
+		DTB combiner:
+		  Input directory: '/media/diskd/kernel/SHV-E330S_JB_Opensource/Kernel/arch/arm/boot/'
+		  Output file: '/media/diskd/kernel/SHV-E330S_JB_Opensource/Kernel/arch/arm/boot/dt.img'
+		Found file: msm8974-sec-ks01-r03.dtb ... chipset: 2114015745, platform: 3, rev: 0
+		Found file: msm8974-sec-ks01-r07.dtb ... chipset: 2114015745, platform: 7, rev: 0
+		Found file: msm8974-sec-ks01-r06.dtb ... chipset: 2114015745, platform: 6, rev: 0
+		Found file: msm8974-sec-ks01-r04.dtb ... chipset: 2114015745, platform: 4, rev: 0
+		Found file: msm8974-sec-ks01-r11.dtb ... chipset: 2114015745, platform: 11, rev: 0
+		Found file: msm8974-sec-ks01-r02.dtb ... chipset: 2114015745, platform: 2, rev: 0
+		Found file: msm8974-sec-ks01-r00.dtb ... chipset: 2114015745, platform: 0, rev: 0
+		Found file: msm8974-sec-ks01-r05.dtb ... chipset: 2114015745, platform: 5, rev: 0
+		Found file: msm8974-sec-ks01-r01.dtb ... chipset: 2114015745, platform: 1, rev: 0
+		=> Found 9 unique DTB(s)
 
- * 图形界面
+		Generating master DTB... completed
 
-    运行 ui/main.py 将会启动操作界面
 
-### 类型 
+### dtbToolCM support dt-tag & dtb v2/3(https://github.com/CyanogenMod/android_device_qcom_common/tree/cm-13.0/dtbtool):
 
-目前，bootimgpack支持大部分厂商的boot.img类型：
+ 	dtbToolCM -s 2048 -d "htc,project-id = <" -o arch/arm/boot/dt.img -p scripts/dtc/ arch/arm/boot/
 
- * SONY (Sony的boot.img类型)
- * MTK (MTK的boot.img类型)
- * QCOM (高通的boot.img类型，包括dt.img)
- * COMMON-V1 (Android 4.3+的boot.img类型)
- * COMMON (Android 2.3~4.3的boot.img类型)
-
-### 版本
-
-v1.0
-
--------------------------------------------------------------------------------
-
-### Introduction
-
-***bootimgpack*** is a smart tool for unpack or pack boot.img of Android,
-implemented in Python and Shell, now only for Unix-like OS.
-
-### Features
- * Hide format differences of boot.img of different manufactors
- * Both command and graphic mode are provided
-
-### Usages
- * Command Mode
-
-    ***Unpack :*** unpack_bootimg.py boot.img output/
-
-    ***Pack   :*** pack_bootimg.py BOOT/ boot.img
-
- * Graphic Mode
-
-    Run ui/main.py to launch the UI
-
-### Types
-
-Bootimgpack support for a broad range types of boot.img including:
-
- * SONY (Support boot.img of Sony)
- * MTK (Support boot.img of MTK 2.3~4.2)
- * QCOM (Support boot.img of QCOM 4.3+, especially for dt.img of QCOM)
- * COMMON-V1 (Support boot.img of Android 4.3+)
- * COMMON (Support boot.img of Android 2.3 ~ Android 4.2)
-
-### Version
-
-V1.0

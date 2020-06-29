@@ -500,28 +500,6 @@ function set_update_workspace {
 	readonly system_privapps=$1/SYSTEM/system/priv-app
 }
 
-function make_vdex_tools() {
-	echo ">>> Build `basename $vdex_tools`"
-	make -C $vtools >/dev/null 2>&1
-
-	case $? in
-		0)
-			echo "<<< build `basename $vdex_tools` done"
-			;;
-		1)
-			echo "<<< build `basename $vdex_tools` failed"
-			exit 1
-			;;
-		2)
-			echo "<<< build `basename $vdex_tools` failed, vdex_tools folder is damaged"
-			exit 1
-			;;
-		*)
-			exit 1
-			;;
-	esac
-}
-
 function unzip_update_package() {
 	readonly update_workspace=$1/$3
 
@@ -647,9 +625,6 @@ rsyncing $workspace $source_ota_file
 
 # Unzip ota package
 unzip_update_package $workspace $base_name $ota_dir
-
-# Make vdex tools
-make_vdex_tools
 
 # Set update workspace
 set_update_workspace $update_workspace

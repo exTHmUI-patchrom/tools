@@ -49,9 +49,7 @@ zip_command()
     if [ "$1" == lzop ]; then
         zcommand="lzop -n -f -9"
     elif [ "$1" == lz4 ]; then
-        # Coron start: fix bug of lz4 can not be found
-        zcommand="$tooldir/lz4 -f -9"
-        # Coron end
+        zcommand="lz4 -f -9"
     elif [ "$1" == lzma ]; then
         zcommand="lzma -f -c"
     elif [ "$1" == xz ]; then
@@ -158,25 +156,19 @@ if [ ! -z $mkboot_from_dir ]; then
     clean
 fi
 
-# Coron Start: No need to ask
 #split boot.img to dir.
-#if [ -e $2 ]; then
-#    read -p "$2 exists, delete?(N/y)" reply
-#    case $reply in
-#        y | Y)
-#        rm -rf $2
-#        ;;
-#    *)
-#        exit
-#        ;;
-#    esac
-#fi
-# Coron End
-
+if [ -e $2 ]; then
+    read -p "$2 exists, delete?(N/y)" reply
+    case $reply in
+        y | Y)
+        rm -rf $2
+        ;;
+    *)
+        exit
+        ;;
+    esac
+fi
 tempdir="$(readlink -f $2)"
-# Coron start: Using $2 as tempdir
-[ -z $tempdir ] && tempdir=$2
-# Coron end
 mkdir -p $tempdir
 pout "Unpack & decompress $1 to $2"
 
@@ -268,13 +260,11 @@ esq="'\"'\"'"
 escaped_cmd_line=`echo $cmd_line | sed "s/'/$esq/g"`
 
 #write info to img_info,decompression ramdisk.packed
-# Coron start: capitalize ramdisk
-printf "kernel=kernel\nramdisk=RAMDISK\n${s_name}${dt_name}page_size=$page_size\n\
+printf "kernel=kernel\nramdisk=ramdisk\n${s_name}${dt_name}page_size=$page_size\n\
 kernel_size=$kernel_size\nramdisk_size=$ramdisk_size\n${s_size}${dt_size}base_addr=$base_addr\nkernel_offset=$kernel_offset\n\
 ramdisk_offset=$ramdisk_offset\ntags_offset=$tags_offset\ncmd_line=\'$escaped_cmd_line\'\nboard=\"$board\"\n" > img_info
 mkdir RAMDISK
 cd RAMDISK
-# Coron end: capitalize ramdisk
 
 gzip -t ../ramdisk.packed 2>/dev/null
 if [ $? -eq 0 ]; then
