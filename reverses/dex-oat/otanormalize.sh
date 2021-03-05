@@ -608,7 +608,7 @@ function check_deps() {
 
 		if [ i$result == i"" ];
 		then
-			echo "error: can not find $1"
+			echo "error: can not find $1 , please install $1"
 			exit 1
 		else
 			update_deps_path $result 
